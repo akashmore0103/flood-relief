@@ -20,20 +20,20 @@ $stats = [
 ];
 
 if ($db->isConnected()) {
-    $zones = $db->fetchAll("SELECT * FROM `zones` WHERE `status` = 'active' ORDER BY `name` ASC");
+    $zones = $db->fetchAll("SELECT * FROM zones WHERE status = 'active' ORDER BY name ASC");
 
     // Precalculate quick statistics
     $stats['total_zones'] = count($zones);
     $stats['critical_zones'] = (int)$db->fetchValue("
         SELECT COUNT(DISTINCT z.id) 
-        FROM `zones` z
-        JOIN `risk_levels` rl ON rl.id = (
-            SELECT id FROM `risk_levels` WHERE zone_id = z.id ORDER BY observed_at DESC, id DESC LIMIT 1
+        FROM zones z
+        JOIN risk_levels rl ON rl.id = (
+            SELECT id FROM risk_levels WHERE zone_id = z.id ORDER BY observed_at DESC, id DESC LIMIT 1
         )
         WHERE z.status = 'active' AND rl.category = 'Critical'
     ");
-    $stats['active_camps'] = (int)$db->fetchValue("SELECT COUNT(*) FROM `camps` WHERE `active` = 1 AND `status` != 'Closed'");
-    $stats['available_beds'] = (int)$db->fetchValue("SELECT SUM(`total_capacity` - `current_occupancy`) FROM `camps` WHERE `active` = 1 AND `status` = 'Operational'");
+    $stats['active_camps'] = (int)$db->fetchValue("SELECT COUNT(*) FROM camps WHERE active = true AND status != 'Closed'");
+    $stats['available_beds'] = (int)$db->fetchValue("SELECT SUM(total_capacity - current_occupancy) FROM camps WHERE active = true AND status = 'Operational'");
 }
 
 $selectedZoneId = (int)($_GET['zone_id'] ?? ($zones[0]['id'] ?? 1));
