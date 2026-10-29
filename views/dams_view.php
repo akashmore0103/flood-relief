@@ -20,6 +20,50 @@ $pageTitle = "Major Indian Rivers & Dam Telemetry";
 require_once __DIR__ . '/layouts/header.php';
 ?>
 
+<style>
+/* Circular SVG Gauge Styling */
+.circular-gauge-box {
+    position: relative;
+    width: 140px;
+    height: 140px;
+    margin: 0 auto;
+}
+.circular-gauge-box svg {
+    transform: rotate(-90deg);
+    display: block;
+}
+.circular-gauge-box .gauge-bg {
+    fill: none !important;
+    stroke: #e2e8f0;
+    stroke-width: 10;
+}
+.circular-gauge-box .gauge-fill {
+    fill: none !important;
+    stroke-width: 10;
+    stroke-linecap: round;
+    transition: stroke-dashoffset 0.8s ease-in-out;
+}
+.circular-gauge-box .gauge-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    width: 100%;
+}
+.circular-gauge-box .gauge-val {
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1.1;
+}
+.circular-gauge-box .gauge-lbl {
+    font-size: 0.68rem;
+    color: #64748b;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+</style>
+
 <div class="container-fluid px-lg-4 py-4">
     <!-- Header Banner -->
     <div class="glass-panel p-4 mb-4">
@@ -86,8 +130,10 @@ require_once __DIR__ . '/layouts/header.php';
                         <!-- Animated Circular Gauge -->
                         <div class="circular-gauge-box my-2">
                             <svg width="140" height="140" viewBox="0 0 140 140">
-                                <circle class="gauge-bg" cx="70" cy="70" r="52"></circle>
+                                <circle class="gauge-bg" cx="70" cy="70" r="52" fill="none" stroke-width="10"></circle>
                                 <circle class="gauge-fill" cx="70" cy="70" r="52" 
+                                        fill="none"
+                                        stroke-width="10"
                                         stroke="<?= $strokeColor ?>"
                                         stroke-dasharray="327" 
                                         stroke-dashoffset="<?= $dashoffset ?>"></circle>
