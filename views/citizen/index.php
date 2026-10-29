@@ -1,4 +1,5 @@
 <?php
+ob_start();
 /**
  * Public Flood Risk Dashboard
  * Satisfies PRD Section 6 (Risk Dashboard) and FR-01 through FR-08
