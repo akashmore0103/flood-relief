@@ -23,9 +23,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # Enable Apache modules (rewrite, headers)
 RUN a2enmod rewrite headers
 
-# Allow Apache to dynamically bind to Render's $PORT environment variable (defaults to 80)
-RUN sed -i 's/80/${PORT:-80}/g' /etc/apache2/ports.conf /etc/apache2/sites-available/*.conf
-
 # Configure Apache virtual host with AllowOverride All
 RUN { \
     echo '<Directory /var/www/html/>'; \
@@ -48,5 +45,5 @@ RUN mkdir -p /var/www/html/storage/logs \
 # Expose standard port
 EXPOSE 80
 
-# Run Apache in foreground
-CMD ["apache2-foreground"]
+# Run Apache in foreground with correct dynamic port mapping
+CMD bash -c "PORT=\${PORT:-80}; sed -i \"s/80/\$PORT/g\" /etc/apache2/ports.conf /etc/apache2/sites-available/*.conf && apache2-foreground"
