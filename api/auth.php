@@ -4,6 +4,10 @@
  * Flood Risk Prediction & Relief Camp Locator
  */
 
+if (!ob_get_level()) {
+    ob_start();
+}
+
 require_once dirname(__DIR__) . '/config/app.php';
 require_once dirname(__DIR__) . '/config/database.php';
 require_once dirname(__DIR__) . '/core/Database.php';
@@ -77,7 +81,7 @@ switch ($action) {
             Response::error('Please enter a valid email address with a valid domain (e.g. name@domain.com).', 422);
         }
 
-        $existing = $db->fetchOne("SELECT id FROM `users` WHERE `email` = :email LIMIT 1", [':email' => $email]);
+        $existing = $db->fetchOne("SELECT id FROM users WHERE email = :email LIMIT 1", [':email' => $email]);
         if ($existing) {
             Response::error('This email address is already registered. Please login.', 409);
         }
@@ -144,7 +148,7 @@ switch ($action) {
         } else {
             // Standard browser navigation: Start clean session for flash message and redirect
             if (session_status() === PHP_SESSION_NONE) {
-                session_start();
+                @session_start();
             }
             Helper::setFlash('info', 'You have been successfully logged out.');
 
