@@ -1,0 +1,393 @@
+/**
+ * Flood Risk Prediction & Relief Camp Locator
+ * Custom Application Stylesheet
+ */
+
+/* ========================================================
+   GLOBAL HORIZONTAL OVERFLOW PREVENTION (STRICT CONTAINMENT)
+   ======================================================== */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+html {
+    max-width: 100%;
+    width: 100%;
+    overflow-x: hidden !important;
+}
+
+body {
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: #212529;
+    background-color: #f8fafc;
+    min-height: 100vh;
+    max-width: 100%;
+    width: 100%;
+    overflow-x: hidden !important;
+    position: relative;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Strict containment on major structural wrappers */
+.container,
+.container-fluid,
+.navbar,
+.alert-ticker,
+main,
+footer {
+    max-width: 100% !important;
+    box-sizing: border-box;
+}
+
+/* Guard against negative margins causing scrollbars on standard displays */
+.row {
+    max-width: 100%;
+}
+
+:root {
+    --flood-critical: #dc3545;
+    --flood-high: #fd7e14;
+    --flood-moderate: #ffc107;
+    --flood-low: #198754;
+    --flood-primary: #0d6efd;
+    --flood-dark: #1e293b;
+}
+
+main {
+    flex: 1 0 auto;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: clip;
+}
+
+footer {
+    flex-shrink: 0;
+    width: 100%;
+    max-width: 100%;
+}
+
+/* Navbar Brand & Status */
+.navbar-brand {
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+
+.brand-badge {
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    padding: 0.2rem 0.5rem;
+    vertical-align: middle;
+}
+
+/* Risk Indicator Badges */
+.badge-risk-critical {
+    background-color: var(--flood-critical) !important;
+    color: #fff !important;
+}
+
+.badge-risk-high {
+    background-color: var(--flood-high) !important;
+    color: #fff !important;
+}
+
+.badge-risk-moderate {
+    background-color: var(--flood-moderate) !important;
+    color: #212529 !important;
+}
+
+.badge-risk-low {
+    background-color: var(--flood-low) !important;
+    color: #fff !important;
+}
+
+/* Risk Score Gauge & Meter */
+.risk-meter-container {
+    position: relative;
+    padding: 1rem;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.risk-progress {
+    height: 18px;
+    border-radius: 9px;
+    background-color: #e2e8f0;
+    overflow: hidden;
+}
+
+/* Pulsing Emergency Animation */
+@keyframes pulse-danger {
+    0% {
+        box-shadow: 0 0 0 0 rgba(220, 53, 69, 0.7);
+    }
+    70% {
+        box-shadow: 0 0 0 12px rgba(220, 53, 69, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(220, 53, 69, 0);
+    }
+}
+
+.pulse-emergency {
+    animation: pulse-danger 2s infinite;
+}
+
+/* Emergency Ticker Banner */
+.alert-ticker {
+    background: linear-gradient(90deg, #b02a37 0%, #dc3545 100%);
+    color: #fff;
+    font-weight: 500;
+}
+
+/* Map Containers */
+#mapContainer, #campMap, #pickerMap {
+    width: 100%;
+    min-height: 480px;
+    border-radius: 12px;
+    background-color: #e5e7eb;
+}
+
+/* Floating Card Styling */
+.stat-card {
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+}
+
+/* Camp List Items */
+.camp-card {
+    cursor: pointer;
+    border-left: 4px solid #0d6efd;
+    transition: all 0.2s;
+}
+
+.camp-card:hover {
+    background-color: #f1f5f9;
+}
+
+.camp-card.status-operational {
+    border-left-color: var(--flood-low);
+}
+
+.camp-card.status-full {
+    border-left-color: var(--flood-critical);
+}
+
+.camp-card.status-standby {
+    border-left-color: var(--flood-moderate);
+}
+
+/* Demo Credential Quick-Chips */
+.demo-chip {
+    cursor: pointer;
+    border: 1px dashed #cbd5e1;
+    background: #f8fafc;
+    padding: 0.4rem 0.8rem;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    transition: background 0.15s;
+}
+
+.demo-chip:hover {
+    background: #e2e8f0;
+}
+
+/* ========================================================
+   MODERN HIGH-TECH EMERGENCY UI & GLASSMORPHY OVERHAUL
+   ======================================================== */
+
+/* Glassmorphism Panels */
+.glass-panel, .glass-card {
+    background: rgba(255, 255, 255, 0.82) !important;
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(255, 255, 255, 0.6) !important;
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.08) !important;
+    border-radius: 16px !important;
+}
+
+.glass-dark {
+    background: rgba(15, 23, 42, 0.88) !important;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    color: #f8fafc;
+}
+
+/* Circular Dam Capacity Meter */
+.circular-gauge-box {
+    position: relative;
+    width: 140px;
+    height: 140px;
+    margin: 0 auto;
+}
+
+.circular-gauge-box svg {
+    transform: rotate(-90deg);
+}
+
+.gauge-bg {
+    fill: none;
+    stroke: #e2e8f0;
+    stroke-width: 10;
+}
+
+.gauge-fill {
+    fill: none;
+    stroke-width: 10;
+    stroke-linecap: round;
+    transition: stroke-dashoffset 1s ease-in-out, stroke 0.5s ease;
+}
+
+.gauge-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.gauge-val {
+    font-size: 1.6rem;
+    font-weight: 800;
+    line-height: 1;
+}
+
+.gauge-lbl {
+    font-size: 0.68rem;
+    color: #64748b;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+/* Pulsing Leaflet/Map Radar Marker */
+.radar-pin {
+    width: 22px;
+    height: 22px;
+    background: #dc3545;
+    border-radius: 50%;
+    border: 3px solid #fff;
+    position: relative;
+    box-shadow: 0 0 10px rgba(220, 53, 69, 0.8);
+}
+
+.radar-pin::after {
+    content: '';
+    position: absolute;
+    top: -8px;
+    left: -8px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 3px solid #dc3545;
+    animation: radar-pulse 1.8s cubic-bezier(0.24, 0, 0.38, 1) infinite;
+}
+
+@keyframes radar-pulse {
+    0% {
+        transform: scale(0.5);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(2.2);
+        opacity: 0;
+    }
+}
+
+/* Water Level Severity Visual Cards */
+.severity-card {
+    border: 2px solid #cbd5e1;
+    border-radius: 12px;
+    padding: 1rem;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    background: #fff;
+}
+
+.severity-card:hover {
+    border-color: #3b82f6;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(59, 130, 246, 0.12);
+}
+
+.severity-card.active-ankle {
+    border-color: #0ea5e9 !important;
+    background: #f0f9ff !important;
+}
+
+.severity-card.active-waist {
+    border-color: #f59e0b !important;
+    background: #fffbeb !important;
+}
+
+.severity-card.active-roof {
+    border-color: #ef4444 !important;
+    background: #fef2f2 !important;
+    box-shadow: 0 0 15px rgba(239, 68, 68, 0.2) !important;
+}
+
+/* Click-to-Call Functionality */
+.btn-call-citizen {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-weight: 600;
+    border-radius: 50px;
+    padding: 0.4rem 1rem;
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: white !important;
+    text-decoration: none;
+    box-shadow: 0 4px 10px rgba(16, 185, 129, 0.25);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.btn-call-citizen:hover {
+    transform: translateY(-1px) scale(1.02);
+    box-shadow: 0 6px 14px rgba(16, 185, 129, 0.35);
+}
+
+.btn-speed-dial {
+    padding: 0.85rem 1rem;
+    border-radius: 14px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: transform 0.2s, box-shadow 0.2s;
+    text-decoration: none !important;
+}
+
+.btn-speed-dial:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* High Contrast Emergency Alert Header */
+.emergency-hud {
+    background: linear-gradient(135deg, #7f1d1d 0%, #b91c1c 50%, #dc2626 100%);
+    color: #fff;
+    border-radius: 16px;
+    padding: 1.5rem;
+    box-shadow: 0 10px 25px rgba(185, 28, 28, 0.25);
+}
+
+/* Simulation Studio Slider Styling */
+.simulation-slider {
+    height: 10px;
+    border-radius: 5px;
+    background: #e2e8f0;
+    outline: none;
+}
+

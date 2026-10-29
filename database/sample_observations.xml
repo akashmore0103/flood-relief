@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Flood Risk Prediction & Relief Camp Locator
+    Sample Hydrological Observation Feed (XML Format)
+    Complies with PRD Section 7 & 9 for XML Import Support
+-->
+<hydrology_feed version="1.0">
+    <metadata>
+        <source>State Disaster Management Authority &amp; River Basin Authority</source>
+        <generated_at>2026-09-05T09:30:00+05:30</generated_at>
+        <feed_type>Hourly Hydrological Monitoring Bulletin</feed_type>
+        <unit_rainfall>millimeters</unit_rainfall>
+        <unit_river_level>meters</unit_river_level>
+    </metadata>
+    <observations>
+        <observation>
+            <zone_id>1</zone_id>
+            <zone_name>Aluva - Lower Periyar Basin</zone_name>
+            <rainfall_mm>205.40</rainfall_mm>
+            <river_level_m>13.85</river_level_m>
+            <observed_at>2026-09-05 09:15:00</observed_at>
+            <station_id>STN-PERIYAR-ALV-01</station_id>
+            <remarks>Gates opened at upstream reservoir; water rising steadily.</remarks>
+        </observation>
+        <observation>
+            <zone_id>2</zone_id>
+            <zone_name>Kuttanad Delta Lowlands</zone_name>
+            <rainfall_mm>155.20</rainfall_mm>
+            <river_level_m>10.15</river_level_m>
+            <observed_at>2026-09-05 09:20:00</observed_at>
+            <station_id>STN-PAMBA-KUT-03</station_id>
+            <remarks>Pamba river discharge entering backwaters.</remarks>
+        </observation>
+        <observation>
+            <zone_id>3</zone_id>
+            <zone_name>Chalakudy River Catchment</zone_name>
+            <rainfall_mm>92.00</rainfall_mm>
+            <river_level_m>6.80</river_level_m>
+            <observed_at>2026-09-05 09:10:00</observed_at>
+            <station_id>STN-CHLK-02</station_id>
+            <remarks>Moderate runoff recorded; water level below danger line.</remarks>
+        </observation>
+        <observation>
+            <zone_id>4</zone_id>
+            <zone_name>Ranni - Upper Pamba Basin</zone_name>
+            <rainfall_mm>42.50</rainfall_mm>
+            <river_level_m>3.10</river_level_m>
+            <observed_at>2026-09-05 09:00:00</observed_at>
+            <station_id>STN-PAMBA-RAN-01</station_id>
+            <remarks>Normal monsoonal flow; low risk level.</remarks>
+        </observation>
+        <observation>
+            <zone_id>5</zone_id>
+            <zone_name>Meppadi - Vythiri Hilly Zone</zone_name>
+            <rainfall_mm>228.00</rainfall_mm>
+            <river_level_m>14.20</river_level_m>
+            <observed_at>2026-09-05 09:25:00</observed_at>
+            <station_id>STN-WYND-MEP-05</station_id>
+            <remarks>Extremely heavy cloudburst rainfall; high risk of flash surge.</remarks>
+        </observation>
+    </observations>
+</hydrology_feed>

@@ -1,0 +1,9 @@
+.git
+.gitignore
+.env
+.env.local
+.env.*.local
+storage/logs/*.log
+*.md
+docker-compose*.yml
+test_*.php

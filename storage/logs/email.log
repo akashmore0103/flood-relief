@@ -1,0 +1,303 @@
+================================================================================
+TIMESTAMP:   2026-10-27 23:37:11
+STATUS:      FAILED
+RECIPIENT:   pooja.kulkarni@example.com (Pooja Kulkarni)
+SUBJECT:     URGENT: Critical Danger - TEST RED ALERT: Extreme Spillway Inflow
+SMTP TARGET: localhost:1025 (Security: NONE, Timeout: 10s)
+SENDER:      FloodRelief Emergency Operations Command <alerts@floodrelief.gov.in>
+AUTH USER:   None (Anonymous)
+ERROR:       Connection to localhost:1025 failed: (10061) No connection could be made because the target machine actively refused it
+--- SMTP CONVERSATION TRANSCRIPT ---
+  SYSTEM: Initiating TCP connection to tcp://localhost:1025 (timeout: 10s)...
+  ERROR: Connection to localhost:1025 failed: (10061) No connection could be made because the target machine actively refused it
+================================================================================
+
+================================================================================
+TIMESTAMP:   2026-10-27 23:38:34
+STATUS:      FAILED
+RECIPIENT:   pooja.kulkarni@example.com (Pooja Kulkarni)
+SUBJECT:     URGENT: Critical Danger - RED ALERT: Emergency Spillway Discharge at Gangapur Dam
+SMTP TARGET: localhost:1025 (Security: NONE, Timeout: 10s)
+SENDER:      FloodRelief Emergency Operations Command <alerts@floodrelief.gov.in>
+AUTH USER:   None (Anonymous)
+ERROR:       Connection to localhost:1025 failed: (10061) No connection could be made because the target machine actively refused it
+--- SMTP CONVERSATION TRANSCRIPT ---
+  SYSTEM: Initiating TCP connection to tcp://localhost:1025 (timeout: 10s)...
+  ERROR: Connection to localhost:1025 failed: (10061) No connection could be made because the target machine actively refused it
+================================================================================
+
+================================================================================
+TIMESTAMP:   2026-10-27 19:11:16
+STATUS:      FAILED
+RECIPIENT:   citizen@example.com (Test Citizen)
+SUBJECT:     URGENT: Red Alert - Test TLS Warning
+SMTP TARGET: smtp.gmail.com:587 (Security: TLS, Timeout: 8s)
+SENDER:      FloodRelief DSS <floodrelief.test@gmail.com>
+AUTH USER:   floodrelief.test@gmail.com
+ERROR:       SMTP Authentication failed for user 'floodrelief.test@gmail.com': 535-5.7.8 Username and Password not accepted. For more information, go to
+535 5.7.8  https://support.google.com/mail/?p=BadCredentials a92af1059eb24-19894d5a10csm34752511c88.1 - gsmtp
+--- SMTP CONVERSATION TRANSCRIPT ---
+  SYSTEM: Initiating TCP connection to tcp://smtp.gmail.com:587 (timeout: 8s)...
+  SERVER: 220 smtp.gmail.com ESMTP a92af1059eb24-19894d5a10csm34752511c88.1 - gsmtp
+  CLIENT: EHLO LAPTOP-DPJOVE6O
+  SERVER: 250-smtp.gmail.com at your service, [2409:40c2:8006:251e:9e4:a6db:2e0:759d]
+  SERVER: 250-SIZE 35882577
+  SERVER: 250-8BITMIME
+  SERVER: 250-STARTTLS
+  SERVER: 250-ENHANCEDSTATUSCODES
+  SERVER: 250-PIPELINING
+  SERVER: 250-CHUNKING
+  SERVER: 250 SMTPUTF8
+  SYSTEM: Requesting STARTTLS encryption negotiation...
+  CLIENT: STARTTLS
+  SERVER: 220 2.0.0 Ready to start TLS
+  SYSTEM: Enabling stream crypto (TLSv1.2 / TLSv1.3)...
+  SYSTEM: TLS handshake successful. Stream is now encrypted.
+  CLIENT: EHLO LAPTOP-DPJOVE6O
+  SERVER: 250-smtp.gmail.com at your service, [2409:40c2:8006:251e:9e4:a6db:2e0:759d]
+  SERVER: 250-SIZE 35882577
+  SERVER: 250-8BITMIME
+  SERVER: 250-AUTH LOGIN PLAIN XOAUTH2 PLAIN-CLIENTTOKEN OAUTHBEARER XOAUTH
+  SERVER: 250-ENHANCEDSTATUSCODES
+  SERVER: 250-PIPELINING
+  SERVER: 250-CHUNKING
+  SERVER: 250 SMTPUTF8
+  SYSTEM: Initiating AUTH LOGIN for user 'floodrelief.test@gmail.com'...
+  CLIENT: AUTH LOGIN
+  SERVER: 334 VXNlcm5hbWU6
+  CLIENT: Zmxvb2RyZWxpZWYudGVzdEBnbWFpbC5jb20=
+  SERVER: 334 UGFzc3dvcmQ6
+  CLIENT: [CREDENTIAL_DATA_PROTECTED]
+  SERVER: 535-5.7.8 Username and Password not accepted. For more information, go to
+  SERVER: 535 5.7.8  https://support.google.com/mail/?p=BadCredentials a92af1059eb24-19894d5a10csm34752511c88.1 - gsmtp
+  ERROR: SMTP Authentication failed for user 'floodrelief.test@gmail.com': 535-5.7.8 Username and Password not accepted. For more information, go to
+535 5.7.8  https://support.google.com/mail/?p=BadCredentials a92af1059eb24-19894d5a10csm34752511c88.1 - gsmtp
+================================================================================
+
+================================================================================
+TIMESTAMP:   2026-10-27 19:11:18
+STATUS:      FAILED
+RECIPIENT:   citizen@example.com (Test Citizen)
+SUBJECT:     URGENT: Red Alert - Test SSL Warning
+SMTP TARGET: smtp.gmail.com:465 (Security: SSL, Timeout: 8s)
+SENDER:      FloodRelief DSS <floodrelief.test@gmail.com>
+AUTH USER:   floodrelief.test@gmail.com
+ERROR:       SMTP Authentication failed for user 'floodrelief.test@gmail.com': 535-5.7.8 Username and Password not accepted. For more information, go to
+535 5.7.8  https://support.google.com/mail/?p=BadCredentials a92af1059eb24-1a58093678esm6560710c88.18 - gsmtp
+--- SMTP CONVERSATION TRANSCRIPT ---
+  SYSTEM: Initiating SSL socket connection to ssl://smtp.gmail.com:465 (timeout: 8s)...
+  SERVER: 220 smtp.gmail.com ESMTP a92af1059eb24-1a58093678esm6560710c88.18 - gsmtp
+  CLIENT: EHLO LAPTOP-DPJOVE6O
+  SERVER: 250-smtp.gmail.com at your service, [2409:40c2:8006:251e:9e4:a6db:2e0:759d]
+  SERVER: 250-SIZE 35882577
+  SERVER: 250-8BITMIME
+  SERVER: 250-AUTH LOGIN PLAIN XOAUTH2 PLAIN-CLIENTTOKEN OAUTHBEARER XOAUTH
+  SERVER: 250-ENHANCEDSTATUSCODES
+  SERVER: 250-PIPELINING
+  SERVER: 250-CHUNKING
+  SERVER: 250 SMTPUTF8
+  SYSTEM: Initiating AUTH LOGIN for user 'floodrelief.test@gmail.com'...
+  CLIENT: AUTH LOGIN
+  SERVER: 334 VXNlcm5hbWU6
+  CLIENT: Zmxvb2RyZWxpZWYudGVzdEBnbWFpbC5jb20=
+  SERVER: 334 UGFzc3dvcmQ6
+  CLIENT: [CREDENTIAL_DATA_PROTECTED]
+  SERVER: 535-5.7.8 Username and Password not accepted. For more information, go to
+  SERVER: 535 5.7.8  https://support.google.com/mail/?p=BadCredentials a92af1059eb24-1a58093678esm6560710c88.18 - gsmtp
+  ERROR: SMTP Authentication failed for user 'floodrelief.test@gmail.com': 535-5.7.8 Username and Password not accepted. For more information, go to
+535 5.7.8  https://support.google.com/mail/?p=BadCredentials a92af1059eb24-1a58093678esm6560710c88.18 - gsmtp
+================================================================================
+
+================================================================================
+TIMESTAMP:   2026-10-27 23:45:47
+STATUS:      FAILED
+RECIPIENT:   amol.deshmukh@example.com (Amol Deshmukh)
+SUBJECT:     URGENT: Critical Danger - RED ALERT: Emergency Spillway Discharge & Inundation Warning
+SMTP TARGET: localhost:1025 (Security: NONE, Timeout: 10s)
+SENDER:      FloodRelief Emergency Operations Command <alerts@floodrelief.gov.in>
+AUTH USER:   None (Anonymous)
+ERROR:       Connection to localhost:1025 failed: (10061) No connection could be made because the target machine actively refused it
+--- SMTP CONVERSATION TRANSCRIPT ---
+  SYSTEM: Initiating TCP connection to tcp://localhost:1025 (timeout: 10s)...
+  ERROR: Connection to localhost:1025 failed: (10061) No connection could be made because the target machine actively refused it
+================================================================================
+
+================================================================================
+TIMESTAMP:   2026-10-27 23:45:51
+STATUS:      FAILED
+RECIPIENT:   akashmore6381@gmail.com (akash more)
+SUBJECT:     URGENT: Critical Danger - RED ALERT: Emergency Spillway Discharge & Inundation Warning
+SMTP TARGET: localhost:1025 (Security: NONE, Timeout: 10s)
+SENDER:      FloodRelief Emergency Operations Command <alerts@floodrelief.gov.in>
+AUTH USER:   None (Anonymous)
+ERROR:       Connection to localhost:1025 failed: (10061) No connection could be made because the target machine actively refused it
+--- SMTP CONVERSATION TRANSCRIPT ---
+  SYSTEM: Initiating TCP connection to tcp://localhost:1025 (timeout: 10s)...
+  ERROR: Connection to localhost:1025 failed: (10061) No connection could be made because the target machine actively refused it
+================================================================================
+
+================================================================================
+TIMESTAMP:   2026-10-27 23:54:14
+STATUS:      SUCCESS
+RECIPIENT:   amol.deshmukh@example.com (Amol Deshmukh)
+SUBJECT:     URGENT: Critical Danger - RED ALERT: Emergency Spillway Discharge & Inundation Warning
+SMTP TARGET: smtp.gmail.com:587 (Security: TLS, Timeout: 10s)
+SENDER:      FloodRelief Emergency Operations Command <Akashmore6381@gmail.com>
+AUTH USER:   Akashmore6381@gmail.com
+ERROR:       None (Delivered successfully)
+--- SMTP CONVERSATION TRANSCRIPT ---
+  SYSTEM: Initiating TCP connection to tcp://smtp.gmail.com:587 (timeout: 10s)...
+  SERVER: 220 smtp.gmail.com ESMTP 5a478bee46e88-369e8db7e73sm35709729eec.20 - gsmtp
+  CLIENT: EHLO LAPTOP-DPJOVE6O
+  SERVER: 250-smtp.gmail.com at your service, [2409:40c2:8006:251e:9e4:a6db:2e0:759d]
+  SERVER: 250-SIZE 35882577
+  SERVER: 250-8BITMIME
+  SERVER: 250-STARTTLS
+  SERVER: 250-ENHANCEDSTATUSCODES
+  SERVER: 250-PIPELINING
+  SERVER: 250-CHUNKING
+  SERVER: 250 SMTPUTF8
+  SYSTEM: Requesting STARTTLS encryption negotiation...
+  CLIENT: STARTTLS
+  SERVER: 220 2.0.0 Ready to start TLS
+  SYSTEM: Enabling stream crypto (TLSv1.2 / TLSv1.3)...
+  SYSTEM: TLS handshake successful. Stream is now encrypted.
+  CLIENT: EHLO LAPTOP-DPJOVE6O
+  SERVER: 250-smtp.gmail.com at your service, [2409:40c2:8006:251e:9e4:a6db:2e0:759d]
+  SERVER: 250-SIZE 35882577
+  SERVER: 250-8BITMIME
+  SERVER: 250-AUTH LOGIN PLAIN XOAUTH2 PLAIN-CLIENTTOKEN OAUTHBEARER XOAUTH
+  SERVER: 250-ENHANCEDSTATUSCODES
+  SERVER: 250-PIPELINING
+  SERVER: 250-CHUNKING
+  SERVER: 250 SMTPUTF8
+  SYSTEM: Initiating AUTH LOGIN for user 'Akashmore6381@gmail.com'...
+  CLIENT: AUTH LOGIN
+  SERVER: 334 VXNlcm5hbWU6
+  CLIENT: QWthc2htb3JlNjM4MUBnbWFpbC5jb20=
+  SERVER: 334 UGFzc3dvcmQ6
+  CLIENT: [CREDENTIAL_DATA_PROTECTED]
+  SERVER: 235 2.7.0 Accepted
+  SYSTEM: Authentication verified successfully (235).
+  CLIENT: MAIL FROM: <Akashmore6381@gmail.com>
+  SERVER: 250 2.1.0 OK 5a478bee46e88-369e8db7e73sm35709729eec.20 - gsmtp
+  CLIENT: RCPT TO: <amol.deshmukh@example.com>
+  SERVER: 250 2.1.5 OK 5a478bee46e88-369e8db7e73sm35709729eec.20 - gsmtp
+  CLIENT: DATA
+  SERVER: 354 Go ahead 5a478bee46e88-369e8db7e73sm35709729eec.20 - gsmtp
+  CLIENT: [MIME multipart payload dispatched, size: 21305 bytes]
+  SERVER: 250 2.0.0 OK  1793125444 5a478bee46e88-369e8db7e73sm35709729eec.20 - gsmtp
+  CLIENT: QUIT
+  SERVER: 221 2.0.0 closing connection 5a478bee46e88-369e8db7e73sm35709729eec.20 - gsmtp
+================================================================================
+
+================================================================================
+TIMESTAMP:   2026-10-27 23:54:21
+STATUS:      SUCCESS
+RECIPIENT:   akashmore6381@gmail.com (akash more)
+SUBJECT:     URGENT: Critical Danger - RED ALERT: Emergency Spillway Discharge & Inundation Warning
+SMTP TARGET: smtp.gmail.com:587 (Security: TLS, Timeout: 10s)
+SENDER:      FloodRelief Emergency Operations Command <Akashmore6381@gmail.com>
+AUTH USER:   Akashmore6381@gmail.com
+ERROR:       None (Delivered successfully)
+--- SMTP CONVERSATION TRANSCRIPT ---
+  SYSTEM: Initiating TCP connection to tcp://smtp.gmail.com:587 (timeout: 10s)...
+  SERVER: 220 smtp.gmail.com ESMTP 5a478bee46e88-369e8d845ddsm35560949eec.11 - gsmtp
+  CLIENT: EHLO LAPTOP-DPJOVE6O
+  SERVER: 250-smtp.gmail.com at your service, [2409:40c2:8006:251e:9e4:a6db:2e0:759d]
+  SERVER: 250-SIZE 35882577
+  SERVER: 250-8BITMIME
+  SERVER: 250-STARTTLS
+  SERVER: 250-ENHANCEDSTATUSCODES
+  SERVER: 250-PIPELINING
+  SERVER: 250-CHUNKING
+  SERVER: 250 SMTPUTF8
+  SYSTEM: Requesting STARTTLS encryption negotiation...
+  CLIENT: STARTTLS
+  SERVER: 220 2.0.0 Ready to start TLS
+  SYSTEM: Enabling stream crypto (TLSv1.2 / TLSv1.3)...
+  SYSTEM: TLS handshake successful. Stream is now encrypted.
+  CLIENT: EHLO LAPTOP-DPJOVE6O
+  SERVER: 250-smtp.gmail.com at your service, [2409:40c2:8006:251e:9e4:a6db:2e0:759d]
+  SERVER: 250-SIZE 35882577
+  SERVER: 250-8BITMIME
+  SERVER: 250-AUTH LOGIN PLAIN XOAUTH2 PLAIN-CLIENTTOKEN OAUTHBEARER XOAUTH
+  SERVER: 250-ENHANCEDSTATUSCODES
+  SERVER: 250-PIPELINING
+  SERVER: 250-CHUNKING
+  SERVER: 250 SMTPUTF8
+  SYSTEM: Initiating AUTH LOGIN for user 'Akashmore6381@gmail.com'...
+  CLIENT: AUTH LOGIN
+  SERVER: 334 VXNlcm5hbWU6
+  CLIENT: QWthc2htb3JlNjM4MUBnbWFpbC5jb20=
+  SERVER: 334 UGFzc3dvcmQ6
+  CLIENT: [CREDENTIAL_DATA_PROTECTED]
+  SERVER: 235 2.7.0 Accepted
+  SYSTEM: Authentication verified successfully (235).
+  CLIENT: MAIL FROM: <Akashmore6381@gmail.com>
+  SERVER: 250 2.1.0 OK 5a478bee46e88-369e8d845ddsm35560949eec.11 - gsmtp
+  CLIENT: RCPT TO: <akashmore6381@gmail.com>
+  SERVER: 250 2.1.5 OK 5a478bee46e88-369e8d845ddsm35560949eec.11 - gsmtp
+  CLIENT: DATA
+  SERVER: 354 Go ahead 5a478bee46e88-369e8d845ddsm35560949eec.11 - gsmtp
+  CLIENT: [MIME multipart payload dispatched, size: 21291 bytes]
+  SERVER: 250 2.0.0 OK  1793125451 5a478bee46e88-369e8d845ddsm35560949eec.11 - gsmtp
+  CLIENT: QUIT
+  SERVER: 221 2.0.0 closing connection 5a478bee46e88-369e8d845ddsm35560949eec.11 - gsmtp
+================================================================================
+
+================================================================================
+TIMESTAMP:   2026-10-28 12:38:09
+STATUS:      SUCCESS
+RECIPIENT:   satvikbarhate45@gmail.com (rudhra)
+SUBJECT:     URGENT: Critical Danger - RED ALERT: Emergency Spillway Discharge & Inundation Warning
+SMTP TARGET: smtp.gmail.com:587 (Security: TLS, Timeout: 10s)
+SENDER:      FloodRelief Emergency Operations Command <Akashmore6381@gmail.com>
+AUTH USER:   Akashmore6381@gmail.com
+ERROR:       None (Delivered successfully)
+--- SMTP CONVERSATION TRANSCRIPT ---
+  SYSTEM: Initiating TCP connection to tcp://smtp.gmail.com:587 (timeout: 10s)...
+  SERVER: 220 smtp.gmail.com ESMTP 5a478bee46e88-36a238d9a21sm3841518eec.4 - gsmtp
+  CLIENT: EHLO LAPTOP-DPJOVE6O
+  SERVER: 250-smtp.gmail.com at your service, [103.112.9.31]
+  SERVER: 250-SIZE 35882577
+  SERVER: 250-8BITMIME
+  SERVER: 250-STARTTLS
+  SERVER: 250-ENHANCEDSTATUSCODES
+  SERVER: 250-PIPELINING
+  SERVER: 250-CHUNKING
+  SERVER: 250 SMTPUTF8
+  SYSTEM: Requesting STARTTLS encryption negotiation...
+  CLIENT: STARTTLS
+  SERVER: 220 2.0.0 Ready to start TLS
+  SYSTEM: Enabling stream crypto (TLSv1.2 / TLSv1.3)...
+  SYSTEM: TLS handshake successful. Stream is now encrypted.
+  CLIENT: EHLO LAPTOP-DPJOVE6O
+  SERVER: 250-smtp.gmail.com at your service, [103.112.9.31]
+  SERVER: 250-SIZE 35882577
+  SERVER: 250-8BITMIME
+  SERVER: 250-AUTH LOGIN PLAIN XOAUTH2 PLAIN-CLIENTTOKEN OAUTHBEARER XOAUTH
+  SERVER: 250-ENHANCEDSTATUSCODES
+  SERVER: 250-PIPELINING
+  SERVER: 250-CHUNKING
+  SERVER: 250 SMTPUTF8
+  SYSTEM: Initiating AUTH LOGIN for user 'Akashmore6381@gmail.com'...
+  CLIENT: AUTH LOGIN
+  SERVER: 334 VXNlcm5hbWU6
+  CLIENT: QWthc2htb3JlNjM4MUBnbWFpbC5jb20=
+  SERVER: 334 UGFzc3dvcmQ6
+  CLIENT: [CREDENTIAL_DATA_PROTECTED]
+  SERVER: 235 2.7.0 Accepted
+  SYSTEM: Authentication verified successfully (235).
+  CLIENT: MAIL FROM: <Akashmore6381@gmail.com>
+  SERVER: 250 2.1.0 OK 5a478bee46e88-36a238d9a21sm3841518eec.4 - gsmtp
+  CLIENT: RCPT TO: <satvikbarhate45@gmail.com>
+  SERVER: 250 2.1.5 OK 5a478bee46e88-36a238d9a21sm3841518eec.4 - gsmtp
+  CLIENT: DATA
+  SERVER: 354 Go ahead 5a478bee46e88-36a238d9a21sm3841518eec.4 - gsmtp
+  CLIENT: [MIME multipart payload dispatched, size: 21233 bytes]
+  SERVER: 250 2.0.0 OK  1793171279 5a478bee46e88-36a238d9a21sm3841518eec.4 - gsmtp
+  CLIENT: QUIT
+  SERVER: 221 2.0.0 closing connection 5a478bee46e88-36a238d9a21sm3841518eec.4 - gsmtp
+================================================================================
+
