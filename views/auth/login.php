@@ -109,28 +109,6 @@ require_once dirname(__DIR__) . '/layouts/header.php';
                         </div>
                     </form>
 
-                    <!-- Academic / Demo Credential Quick-Fill -->
-                    <div class="p-3 bg-light rounded-3 border">
-                        <div class="d-flex align-items-center mb-2">
-                            <i class="bi bi-info-circle text-primary me-2"></i>
-                            <span class="fw-bold small text-muted text-uppercase">Demo Credentials (Click to fill)</span>
-                        </div>
-                        <div class="d-flex flex-column gap-2">
-                            <button type="button" class="btn btn-outline-secondary btn-sm text-start demo-chip" onclick="fillCreds('admin@floodrelief.org', 'Admin@1234')">
-                                <div class="fw-semibold text-dark"><i class="bi bi-person-badge-fill me-1 text-danger"></i> Administrator</div>
-                                <div class="small text-muted font-monospace">admin@floodrelief.org / Admin@1234</div>
-                            </button>
-                            <button type="button" class="btn btn-outline-secondary btn-sm text-start demo-chip" onclick="fillCreds('coordinator@floodrelief.org', 'Coord@1234')">
-                                <div class="fw-semibold text-dark"><i class="bi bi-person-gear me-1 text-primary"></i> Relief Coordinator</div>
-                                <div class="small text-muted font-monospace">coordinator@floodrelief.org / Coord@1234</div>
-                            </button>
-                            <button type="button" class="btn btn-outline-secondary btn-sm text-start demo-chip" onclick="fillCreds('citizen@example.com', 'Citizen@1234')">
-                                <div class="fw-semibold text-dark"><i class="bi bi-person-heart me-1 text-success"></i> Registered Citizen</div>
-                                <div class="small text-muted font-monospace">citizen@example.com / Citizen@1234</div>
-                            </button>
-                        </div>
-                    </div>
-
                     <div class="text-center mt-3">
                         <span class="text-muted small">Are you a citizen?</span>
                         <a href="<?= BASE_URL ?>/views/auth/register.php" class="small fw-bold text-decoration-none text-primary ms-1">Create Free Citizen Account &rarr;</a>
@@ -148,11 +126,6 @@ require_once dirname(__DIR__) . '/layouts/header.php';
 </div>
 
 <script>
-function fillCreds(email, password) {
-    document.getElementById('email').value = email;
-    document.getElementById('password').value = password;
-}
-
 document.getElementById('togglePassword')?.addEventListener('click', function() {
     const pwdInput = document.getElementById('password');
     const icon = this.querySelector('i');
