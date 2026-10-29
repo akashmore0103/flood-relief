@@ -152,11 +152,13 @@ class I18n {
      */
     public static function getLang(): string {
         if (session_status() === PHP_SESSION_NONE) {
-            session_start();
+            @session_start();
         }
         if (!empty($_GET['lang']) && in_array($_GET['lang'], ['en', 'mr', 'hi'], true)) {
             $_SESSION['lang'] = $_GET['lang'];
-            setcookie('flood_relief_lang', $_GET['lang'], time() + (86400 * 30), '/');
+            if (!headers_sent()) {
+                @setcookie('flood_relief_lang', $_GET['lang'], time() + (86400 * 30), '/');
+            }
             return $_GET['lang'];
         }
         if (!empty($_SESSION['lang']) && in_array($_SESSION['lang'], ['en', 'mr', 'hi'], true)) {

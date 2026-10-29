@@ -13,9 +13,11 @@ class Auth {
      */
     public static function startSession(): void {
         if (session_status() === PHP_SESSION_NONE) {
-            ini_set('session.cookie_httponly', 1);
-            ini_set('session.use_only_cookies', 1);
-            session_start();
+            if (!headers_sent()) {
+                @ini_set('session.cookie_httponly', 1);
+                @ini_set('session.use_only_cookies', 1);
+            }
+            @session_start();
         }
     }
 
@@ -27,8 +29,8 @@ class Auth {
         $db = Database::getInstance();
 
         $sql = "SELECT u.*, r.role_name 
-                FROM `users` u 
-                JOIN `roles` r ON u.role_id = r.id 
+                FROM users u 
+                JOIN roles r ON u.role_id = r.id 
                 WHERE u.email = :email AND u.status = 'active' 
                 LIMIT 1";
 
@@ -60,7 +62,9 @@ class Auth {
         }
 
         // Prevent session fixation
-        session_regenerate_id(true);
+        if (!headers_sent()) {
+            @session_regenerate_id(true);
+        }
 
         // Store user payload in session
         $_SESSION['user_id'] = (int)$user['id'];
@@ -110,14 +114,14 @@ class Auth {
         }
 
         $_SESSION = [];
-        if (ini_get("session.use_cookies")) {
+        if (ini_get("session.use_cookies") && !headers_sent()) {
             $params = session_get_cookie_params();
             setcookie(session_name(), '', time() - 42000,
                 $params["path"], $params["domain"],
                 $params["secure"], $params["httponly"]
             );
         }
-        session_destroy();
+        @session_destroy();
     }
 
     /**
