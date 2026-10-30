@@ -55,7 +55,7 @@ $activeAlert = $db->fetchOne(
     "SELECT * FROM `alerts` 
      WHERE (`target_zone_id` = :zone_id OR `target_zone_id` IS NULL)
        AND `status` = 'Published'
-       AND (`is_active` = 1 OR `is_active` IS NULL)
+       AND (`is_active` = TRUE OR `is_active` IS NULL)
        AND (`expires_at` IS NULL OR `expires_at` > NOW())
      ORDER BY `created_at` DESC 
      LIMIT 1",
