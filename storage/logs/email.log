@@ -301,3 +301,45 @@ ERROR:       None (Delivered successfully)
   SERVER: 221 2.0.0 closing connection 5a478bee46e88-36a238d9a21sm3841518eec.4 - gsmtp
 ================================================================================
 
+================================================================================
+TIMESTAMP:   2026-10-29 16:16:36
+STATUS:      FAILED
+RECIPIENT:   amol.deshmukh@example.com (Amol Deshmukh)
+SUBJECT:     URGENT: Critical Danger - RED ALERT: Emergency Spillway Discharge & Inundation Warning
+SMTP TARGET: localhost:1025 (Security: NONE, Timeout: 10s)
+SENDER:      FloodRelief Emergency Operations Command <alerts@floodrelief.gov.in>
+AUTH USER:   None (Anonymous)
+ERROR:       Connection to localhost:1025 failed: (10061) No connection could be made because the target machine actively refused it
+--- SMTP CONVERSATION TRANSCRIPT ---
+  SYSTEM: Initiating TCP connection to tcp://localhost:1025 (timeout: 10s)...
+  ERROR: Connection to localhost:1025 failed: (10061) No connection could be made because the target machine actively refused it
+================================================================================
+
+================================================================================
+TIMESTAMP:   2026-10-29 16:24:36
+STATUS:      FAILED
+RECIPIENT:   pooja.kulkarni@example.com (Pooja Kulkarni)
+SUBJECT:     URGENT: Critical Danger - RED ALERT: Emergency Spillway Discharge & Inundation Warning
+SMTP TARGET: localhost:1025 (Security: NONE, Timeout: 10s)
+SENDER:      FloodRelief Emergency Operations Command <alerts@floodrelief.gov.in>
+AUTH USER:   None (Anonymous)
+ERROR:       Connection to localhost:1025 failed: (10061) No connection could be made because the target machine actively refused it
+--- SMTP CONVERSATION TRANSCRIPT ---
+  SYSTEM: Initiating TCP connection to tcp://localhost:1025 (timeout: 10s)...
+  ERROR: Connection to localhost:1025 failed: (10061) No connection could be made because the target machine actively refused it
+================================================================================
+
+================================================================================
+TIMESTAMP:   2026-10-29 16:24:40
+STATUS:      FAILED
+RECIPIENT:   akashmorepatil0103@gmail.com (Akash)
+SUBJECT:     URGENT: Critical Danger - RED ALERT: Emergency Spillway Discharge & Inundation Warning
+SMTP TARGET: localhost:1025 (Security: NONE, Timeout: 10s)
+SENDER:      FloodRelief Emergency Operations Command <alerts@floodrelief.gov.in>
+AUTH USER:   None (Anonymous)
+ERROR:       Connection to localhost:1025 failed: (10061) No connection could be made because the target machine actively refused it
+--- SMTP CONVERSATION TRANSCRIPT ---
+  SYSTEM: Initiating TCP connection to tcp://localhost:1025 (timeout: 10s)...
+  ERROR: Connection to localhost:1025 failed: (10061) No connection could be made because the target machine actively refused it
+================================================================================
+

@@ -1,4 +1,10 @@
 <?php
+// Turn off display of notices that break JSON responses
+ini_set('display_errors', '0');
+error_reporting(E_ALL & ~E_NOTICE & ~E_WARNING);
+
+header('Content-Type: application/json; charset=utf-8');
+ob_start();
 ob_start();
 /**
  * Public Flood Risk Dashboard
@@ -315,3 +321,7 @@ require_once dirname(__DIR__) . '/layouts/header.php';
 <script src="<?= BASE_URL ?>/assets/js/risk_dashboard.js"></script>
 
 <?php require_once dirname(__DIR__) . '/layouts/footer.php'; ?>
+
+ob_clean();
+echo json_encode($response);
+exit;

@@ -15,7 +15,7 @@ class RiskRuleEngine {
     public static function getActiveRule(): array {
         if (self::$activeRule === null) {
             $db = Database::getInstance();
-            $rule = $db->fetchOne("SELECT * FROM `risk_rules` WHERE `is_active` = 1 ORDER BY `id` DESC LIMIT 1");
+            $rule = $db->fetchOne("SELECT * FROM `risk_rules` WHERE `is_active` = TRUE ORDER BY `id` DESC LIMIT 1");
 
             if (!$rule) {
                 // Fallback default rule if database is unseeded
