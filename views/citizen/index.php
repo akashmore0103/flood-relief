@@ -320,8 +320,5 @@ require_once dirname(__DIR__) . '/layouts/header.php';
 <!-- Dedicated Client-side Risk Dashboard Logic -->
 <script src="<?= BASE_URL ?>/assets/js/risk_dashboard.js"></script>
 
-<?php require_once dirname(__DIR__) . '/layouts/footer.php'; ?>
 
-ob_clean();
-echo json_encode($response);
-exit;
+<?php require_once dirname(__DIR__) . '/layouts/footer.php'; ?>
