@@ -1,4 +1,7 @@
 <?php
+ini_set('display_errors', '0');
+error_reporting(0);
+header('Content-Type: application/json; charset=utf-8');
 /**
  * Zone Risk Calculation & Observation Detail API
  * Complies with PRD Endpoint: GET /api/zones/{id}/risk
