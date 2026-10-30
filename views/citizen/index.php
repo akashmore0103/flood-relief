@@ -1,11 +1,4 @@
 <?php
-// Turn off display of notices that break JSON responses
-ini_set('display_errors', '0');
-error_reporting(E_ALL & ~E_NOTICE & ~E_WARNING);
-
-header('Content-Type: application/json; charset=utf-8');
-ob_start();
-ob_start();
 /**
  * Public Flood Risk Dashboard
  * Satisfies PRD Section 6 (Risk Dashboard) and FR-01 through FR-08
