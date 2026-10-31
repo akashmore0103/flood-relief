@@ -11,34 +11,47 @@ class EmailService {
     private static ?array $config = null;
 
     /**
-     * Load environment configuration from .env with strict parsing & auto-inference
+     * Load environment configuration from System Environment (Render/Docker) or .env file
      */
     public static function loadConfig(bool $forceReload = false): array {
         if (self::$config !== null && !$forceReload) {
             return self::$config;
         }
 
+        // Helper to check getenv(), $_ENV, or $_SERVER (Critical for Render deployment)
+        $getEnvVal = function(string ...$keys): ?string {
+            foreach ($keys as $k) {
+                $val = getenv($k);
+                if ($val !== false && $val !== '') return trim((string)$val);
+                if (isset($_ENV[$k]) && $_ENV[$k] !== '') return trim((string)$_ENV[$k]);
+                if (isset($_SERVER[$k]) && $_SERVER[$k] !== '') return trim((string)$_SERVER[$k]);
+            }
+            return null;
+        };
+
+        // 1. Establish robust default configuration pointing directly to working Gmail SMTP
+        $config = [
+            'smtp_host'   => $getEnvVal('SMTP_HOST', 'MAIL_HOST') ?: 'smtp.gmail.com',
+            'smtp_port'   => (int)($getEnvVal('SMTP_PORT', 'MAIL_PORT') ?: 587),
+            'smtp_user'   => $getEnvVal('SMTP_USER', 'SMTP_USERNAME', 'MAIL_USERNAME') ?: 'Akashmore6381@gmail.com',
+            'smtp_pass'   => $getEnvVal('SMTP_PASS', 'SMTP_PASSWORD', 'MAIL_PASSWORD') ?: '',
+            'smtp_secure' => strtolower($getEnvVal('SMTP_SECURE', 'SMTP_ENCRYPTION', 'MAIL_ENCRYPTION') ?: 'tls'),
+            'from_email'  => $getEnvVal('SMTP_FROM', 'MAIL_FROM', 'MAIL_FROM_ADDRESS') ?: 'Akashmore6381@gmail.com',
+            'from_name'   => $getEnvVal('SMTP_FROM_NAME', 'MAIL_FROM_NAME') ?: 'FloodRelief Emergency Operations Command',
+            'timeout'     => (int)($getEnvVal('SMTP_TIMEOUT') ?: 10),
+            'env_loaded'  => false,
+            'env_source'  => 'system_env'
+        ];
+
+        // 2. Parse .env file if it exists locally
         $envFile = dirname(__DIR__) . '/.env';
         if (!file_exists($envFile) && defined('APP_ROOT')) {
             $envFile = APP_ROOT . '/.env';
         }
 
-        // Default baseline configuration
-        $config = [
-            'smtp_host' => 'localhost',
-            'smtp_port' => 1025,
-            'smtp_user' => '',
-            'smtp_pass' => '',
-            'smtp_secure' => 'none',
-            'from_email' => 'alerts@floodrelief.gov.in',
-            'from_name'  => 'FloodRelief Emergency Operations Command',
-            'timeout'    => 10,
-            'env_loaded' => false,
-            'env_source' => $envFile
-        ];
-
         if (file_exists($envFile)) {
             $config['env_loaded'] = true;
+            $config['env_source'] = $envFile;
             $lines = file($envFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
             foreach ($lines as $line) {
                 $line = trim($line);
@@ -47,7 +60,6 @@ class EmailService {
                     [$key, $val] = explode('=', $line, 2);
                     $key = strtoupper(trim($key));
                     
-                    // Remove trailing inline comments if not wrapped in quotes
                     $val = trim($val);
                     if (!preg_match('/^["\'].*["\']$/', $val) && str_contains($val, '#')) {
                         $parts = explode('#', $val);
@@ -70,7 +82,17 @@ class EmailService {
             }
         }
 
-        // Auto-detect secure transport mode if unspecified or set to auto
+        // 3. Fallback protection: If localhost was set by mistake, redirect to Gmail
+        if ($config['smtp_host'] === 'localhost' || $config['smtp_port'] === 1025) {
+            $config['smtp_host'] = 'smtp.gmail.com';
+            $config['smtp_port'] = 587;
+            $config['smtp_secure'] = 'tls';
+            if (empty($config['smtp_user'])) {
+                $config['smtp_user'] = 'Akashmore6381@gmail.com';
+            }
+        }
+
+        // Auto-detect secure transport mode
         if (empty($config['smtp_secure']) || $config['smtp_secure'] === 'auto') {
             if ($config['smtp_port'] === 465) {
                 $config['smtp_secure'] = 'ssl';
@@ -99,17 +121,25 @@ class EmailService {
 
     /**
      * Dispatch High-Priority Emergency Flood Alert Email
-     *
-     * @param array $recipient ['name' => ..., 'email' => ..., 'phone' => ...]
-     * @param array $alertData ['title' => ..., 'message' => ..., 'severity' => ..., 'dam_name' => ..., 'basin_name' => ...]
-     * @param array|null $shelterData Designated relief shelter record
-     * @return array Raw delivery result: ['sent' => bool, 'error' => ?string, 'attempted_to' => string, 'smtp_host_used' => string, 'transcript' => array]
      */
     public static function sendEmergencyAlert(array $recipient, array $alertData, ?array $shelterData = null, ?array $overrideConfig = null): array {
         $config = $overrideConfig ? array_merge(self::loadConfig(), $overrideConfig) : self::loadConfig();
 
         $toEmail = trim($recipient['email'] ?? '');
         $toName = trim($recipient['name'] ?? ($recipient['full_name'] ?? 'Citizen'));
+
+        // Skip sending to dummy demo addresses like '@example.com' to prevent socket failure
+        if (str_ends_with(strtolower($toEmail), '@example.com')) {
+            $result = [
+                'sent' => false,
+                'error' => "Skipped demo/placeholder address: '{$toEmail}'",
+                'attempted_to' => $toEmail,
+                'smtp_host_used' => "{$config['smtp_host']}:{$config['smtp_port']} (" . strtoupper($config['smtp_secure']) . ")",
+                'transcript' => ["DEMO_RECIPIENT_SKIPPED: Skipped non-routable demo address '{$toEmail}'"]
+            ];
+            self::logToEmailLog('SKIPPED', $toEmail, $toName, $alertData['title'] ?? 'Emergency Warning', $config, $result['error'], $result['transcript']);
+            return $result;
+        }
 
         if (empty($toEmail) || !filter_var($toEmail, FILTER_VALIDATE_EMAIL)) {
             $result = [
@@ -128,7 +158,7 @@ class EmailService {
         $htmlBody = self::buildHtmlTemplate($toName, $alertData, $shelterData);
         $plainText = strip_tags(str_replace(['<br>', '</p>'], ["\n", "\n\n"], $htmlBody));
 
-        // Attempt direct low-level socket SMTP delivery
+        // Direct low-level socket SMTP delivery
         $result = self::sendViaSocketSmtp($config, $toEmail, $toName, $subject, $htmlBody, $plainText);
 
         // Hard-log full transcript and error reason to storage/logs/email.log
@@ -210,8 +240,6 @@ class EmailService {
 
     /**
      * Low-level Socket SMTP Engine supporting SSL (465) and STARTTLS (587)
-     *
-     * @return array ['sent' => bool, 'error' => ?string, 'attempted_to' => string, 'smtp_host_used' => string, 'transcript' => array]
      */
     private static function sendViaSocketSmtp(array $config, string $toEmail, string $toName, string $subject, string $htmlBody, string $plainText): array {
         $host = $config['smtp_host'];
@@ -222,13 +250,11 @@ class EmailService {
 
         $hostLabel = "{$host}:{$port} (" . strtoupper($secure) . ")";
         $transcript = [];
-
         $socket = null;
 
         try {
             // Step 1: Open Socket Connection
             if ($secure === 'ssl' || $port === 465) {
-                // SSL wrapper (e.g. port 465)
                 $streamTarget = "ssl://{$host}:{$port}";
                 $transcript[] = "SYSTEM: Initiating SSL socket connection to {$streamTarget} (timeout: {$timeout}s)...";
 
@@ -243,7 +269,6 @@ class EmailService {
 
                 $socket = @stream_socket_client($streamTarget, $errno, $errstr, $timeout, STREAM_CLIENT_CONNECT, $context);
             } else {
-                // Standard TCP connection (e.g. port 587 for STARTTLS, or 1025/25 for plaintext)
                 $streamTarget = "tcp://{$host}:{$port}";
                 $transcript[] = "SYSTEM: Initiating TCP connection to {$streamTarget} (timeout: {$timeout}s)...";
 
@@ -264,7 +289,7 @@ class EmailService {
 
             stream_set_timeout($socket, $timeout);
 
-            // Response reader helper (handles multiline replies per RFC 5321)
+            // Response reader helper (handles multiline replies RFC 5321)
             $readResponse = function() use ($socket, &$transcript, $host, $port) {
                 $fullResponse = "";
                 $code = 0;
@@ -274,7 +299,6 @@ class EmailService {
                     $fullResponse .= $line;
                     $transcript[] = "SERVER: " . rtrim($line, "\r\n");
 
-                    // SMTP reply lines: 3 digits followed by a space (final line) or hyphen (continuation)
                     if (preg_match('/^([0-9]{3})([ -])(.*)$/', $line, $matches)) {
                         $code = (int)$matches[1];
                         if ($matches[2] === ' ') {
@@ -308,7 +332,6 @@ class EmailService {
             $sendCommand("EHLO " . $clientHost);
             $ehloResp = $readResponse();
             if ($ehloResp['code'] !== 250) {
-                // Fallback to HELO if EHLO rejected
                 $sendCommand("HELO " . $clientHost);
                 $heloResp = $readResponse();
                 if ($heloResp['code'] !== 250) {
@@ -316,7 +339,7 @@ class EmailService {
                 }
             }
 
-            // Step 4: Handle STARTTLS on Port 587 or if requested
+            // Step 4: Handle STARTTLS on Port 587
             if ($secure === 'tls' || $port === 587) {
                 $transcript[] = "SYSTEM: Requesting STARTTLS encryption negotiation...";
                 $sendCommand("STARTTLS");
@@ -341,7 +364,7 @@ class EmailService {
 
                 $transcript[] = "SYSTEM: TLS handshake successful. Stream is now encrypted.";
 
-                // RFC 3207: Must re-issue EHLO after successful STARTTLS negotiation!
+                // RFC 3207: Must re-issue EHLO after STARTTLS
                 $sendCommand("EHLO " . $clientHost);
                 $ehloSecureResp = $readResponse();
                 if ($ehloSecureResp['code'] !== 250) {
@@ -350,7 +373,7 @@ class EmailService {
             }
 
             // Step 5: SMTP Authentication (AUTH LOGIN)
-            if (!empty($config['smtp_user'])) {
+            if (!empty($config['smtp_user']) && !empty($config['smtp_pass'])) {
                 $transcript[] = "SYSTEM: Initiating AUTH LOGIN for user '{$config['smtp_user']}'...";
                 $sendCommand("AUTH LOGIN");
                 $authResp = $readResponse();
@@ -405,7 +428,7 @@ class EmailService {
                 "Date: " . date('r'),
                 "MIME-Version: 1.0",
                 "X-Priority: 1 (Highest)",
-                "X-MSMail-Priority: High",
+                "X-MS                "X-MSMail-Priority: High",
                 "Importance: High",
                 "X-Mailer: FloodRelief-DSS/4.0-SMTP",
                 "Content-Type: multipart/alternative; boundary=\"{$boundary}\""
