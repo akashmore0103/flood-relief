@@ -421,6 +421,9 @@ class EmailService {
             // Step 9: Assemble & Transmit MIME Multipart Message
             $boundary = "==_Multipart_Boundary_x" . md5(microtime(true) . $toEmail);
 
+            // Step 9: Assemble & Transmit MIME Multipart Message
+            $boundary = "==_Multipart_Boundary_x" . md5(microtime(true) . $toEmail);
+
             $headers = [
                 "From: =?UTF-8?B?" . base64_encode($config['from_name']) . "?= <{$fromAddr}>",
                 "To: =?UTF-8?B?" . base64_encode($toName) . "?= <{$toEmail}>",
@@ -428,7 +431,7 @@ class EmailService {
                 "Date: " . date('r'),
                 "MIME-Version: 1.0",
                 "X-Priority: 1 (Highest)",
-                "X-MS                "X-MSMail-Priority: High",
+                "X-MSMail-Priority: High",
                 "Importance: High",
                 "X-Mailer: FloodRelief-DSS/4.0-SMTP",
                 "Content-Type: multipart/alternative; boundary=\"{$boundary}\""
