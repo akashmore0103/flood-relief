@@ -13,95 +13,35 @@ class EmailService {
     /**
      * Load environment configuration from System Environment (Render/Docker) or .env file
      */
-    public static function loadConfig(bool $forceReload = false): array {
+public static function loadConfig(bool $forceReload = false): array {
         if (self::$config !== null && !$forceReload) {
             return self::$config;
         }
 
-        // Helper to check getenv(), $_ENV, or $_SERVER (Critical for Render deployment)
-        $getEnvVal = function(string ...$keys): ?string {
-            foreach ($keys as $k) {
-                $val = getenv($k);
-                if ($val !== false && $val !== '') return trim((string)$val);
-                if (isset($_ENV[$k]) && $_ENV[$k] !== '') return trim((string)$_ENV[$k]);
-                if (isset($_SERVER[$k]) && $_SERVER[$k] !== '') return trim((string)$_SERVER[$k]);
-            }
-            return null;
-        };
-
-        // 1. Establish robust default configuration pointing directly to working Gmail SMTP
+        // थेट कार्यरत Gmail SMTP कॉन्फिगरेशन
         $config = [
-            'smtp_host'   => $getEnvVal('SMTP_HOST', 'MAIL_HOST') ?: 'smtp.gmail.com',
-            'smtp_port'   => (int)($getEnvVal('SMTP_PORT', 'MAIL_PORT') ?: 587),
-            'smtp_user'   => $getEnvVal('SMTP_USER', 'SMTP_USERNAME', 'MAIL_USERNAME') ?: 'Akashmore6381@gmail.com',
-            'smtp_pass'   => $getEnvVal('SMTP_PASS', 'SMTP_PASSWORD', 'MAIL_PASSWORD') ?: '',
-            'smtp_secure' => strtolower($getEnvVal('SMTP_SECURE', 'SMTP_ENCRYPTION', 'MAIL_ENCRYPTION') ?: 'tls'),
-            'from_email'  => $getEnvVal('SMTP_FROM', 'MAIL_FROM', 'MAIL_FROM_ADDRESS') ?: 'Akashmore6381@gmail.com',
-            'from_name'   => $getEnvVal('SMTP_FROM_NAME', 'MAIL_FROM_NAME') ?: 'FloodRelief Emergency Operations Command',
-            'timeout'     => (int)($getEnvVal('SMTP_TIMEOUT') ?: 10),
-            'env_loaded'  => false,
-            'env_source'  => 'system_env'
+            'smtp_host'   => 'smtp.gmail.com',
+            'smtp_port'   => 587,
+            'smtp_user'   => 'Akashmore6381@gmail.com',
+            'smtp_pass'   => 'tumcha_16_digit_app_password', // <-- इथे तुमचा 16-अक्षरी Gmail App Password टाका (उदा. abcd efgh ijkl mnop)
+            'smtp_secure' => 'tls',
+            'from_email'  => 'Akashmore6381@gmail.com',
+            'from_name'   => 'FloodRelief Emergency Operations Command',
+            'timeout'     => 15,
+            'env_loaded'  => true,
+            'env_source'  => 'hardcoded_gmail_production'
         ];
 
-        // 2. Parse .env file if it exists locally
-        $envFile = dirname(__DIR__) . '/.env';
-        if (!file_exists($envFile) && defined('APP_ROOT')) {
-            $envFile = APP_ROOT . '/.env';
-        }
+        // जर Render Environment मध्ये व्हॅल्यूज असतील तर त्या वाचणे
+        $envHost = getenv('MAIL_HOST') ?: getenv('SMTP_HOST');
+        $envPort = getenv('MAIL_PORT') ?: getenv('SMTP_PORT');
+        $envUser = getenv('MAIL_USERNAME') ?: getenv('SMTP_USER');
+        $envPass = getenv('MAIL_PASSWORD') ?: getenv('SMTP_PASS');
 
-        if (file_exists($envFile)) {
-            $config['env_loaded'] = true;
-            $config['env_source'] = $envFile;
-            $lines = file($envFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-            foreach ($lines as $line) {
-                $line = trim($line);
-                if (empty($line) || str_starts_with($line, '#') || str_starts_with($line, ';')) continue;
-                if (str_contains($line, '=')) {
-                    [$key, $val] = explode('=', $line, 2);
-                    $key = strtoupper(trim($key));
-                    
-                    $val = trim($val);
-                    if (!preg_match('/^["\'].*["\']$/', $val) && str_contains($val, '#')) {
-                        $parts = explode('#', $val);
-                        $val = trim($parts[0]);
-                    }
-                    $val = trim($val, " \t\n\r\0\x0B\"'");
-
-                    match ($key) {
-                        'SMTP_HOST', 'MAIL_HOST' => $config['smtp_host'] = $val,
-                        'SMTP_PORT', 'MAIL_PORT' => $config['smtp_port'] = (int)$val,
-                        'SMTP_USER', 'SMTP_USERNAME', 'MAIL_USERNAME' => $config['smtp_user'] = $val,
-                        'SMTP_PASS', 'SMTP_PASSWORD', 'MAIL_PASSWORD' => $config['smtp_pass'] = $val,
-                        'SMTP_SECURE', 'SMTP_ENCRYPTION', 'MAIL_ENCRYPTION' => $config['smtp_secure'] = strtolower($val),
-                        'SMTP_FROM', 'MAIL_FROM', 'MAIL_FROM_ADDRESS' => $config['from_email'] = $val,
-                        'SMTP_FROM_NAME', 'MAIL_FROM_NAME' => $config['from_name'] = $val,
-                        'SMTP_TIMEOUT' => $config['timeout'] = max(3, (int)$val),
-                        default => null
-                    };
-                }
-            }
-        }
-
-        // 3. Fallback protection: If localhost was set by mistake, redirect to Gmail
-        if ($config['smtp_host'] === 'localhost' || $config['smtp_port'] === 1025) {
-            $config['smtp_host'] = 'smtp.gmail.com';
-            $config['smtp_port'] = 587;
-            $config['smtp_secure'] = 'tls';
-            if (empty($config['smtp_user'])) {
-                $config['smtp_user'] = 'Akashmore6381@gmail.com';
-            }
-        }
-
-        // Auto-detect secure transport mode
-        if (empty($config['smtp_secure']) || $config['smtp_secure'] === 'auto') {
-            if ($config['smtp_port'] === 465) {
-                $config['smtp_secure'] = 'ssl';
-            } elseif ($config['smtp_port'] === 587) {
-                $config['smtp_secure'] = 'tls';
-            } else {
-                $config['smtp_secure'] = 'none';
-            }
-        }
+        if (!empty($envHost) && $envHost !== 'localhost') $config['smtp_host'] = $envHost;
+        if (!empty($envPort) && (int)$envPort !== 1025)   $config['smtp_port'] = (int)$envPort;
+        if (!empty($envUser))                             $config['smtp_user'] = $envUser;
+        if (!empty($envPass))                             $config['smtp_pass'] = $envPass;
 
         self::$config = $config;
         return self::$config;
